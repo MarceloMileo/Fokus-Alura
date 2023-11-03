@@ -6,6 +6,7 @@ const banner = document.querySelector(".app__image");
 const titulo = document.querySelector(".app__title");
 const botoes = document.querySelectorAll(".app__card-button");
 
+
 btnFoco.addEventListener("click", () => {
   alterarContexto("foco");
   btnFoco.classList.add("active");
