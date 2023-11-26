@@ -5,8 +5,10 @@ const btnCancelTask = document.querySelector(
 const formAddTask = document.querySelector(".app__form-add-task");
 const textArea = document.querySelector(".app__form-textarea");
 const taskList = document.querySelector(".app__section-task-list");
+const inProgressTask = document.querySelector(".app__section-active-task-description");
 
 const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let selectedTask = null;
 
 function updateTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -47,6 +49,23 @@ function createTaskElement(task) {
   li.append(svg);
   li.append(paragraph);
   li.append(btnEdit);
+
+  li.onclick = () => {
+    inProgressTask.textContent = task.description;
+    document.querySelectorAll(".app__section-task-list-item-active").forEach(element => {
+      element.classList.remove("app__section-task-list-item-active")
+    })
+
+    if(selectedTask == task){
+      inProgressTask.textContent = "";
+      selectedTask = null;
+      return;
+    }
+
+    selectedTask = task;
+
+    li.classList.add("app__section-task-list-item-active");
+  }
 
   return li;
 }
