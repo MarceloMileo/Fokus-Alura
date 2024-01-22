@@ -15,7 +15,7 @@ const textoStartPause = document.querySelector("#start-pause span");
 const imagemStartPause = document.querySelector("#start-pause img");
 const tempoNaTela = document.querySelector("#timer");
 
-let tempoDecorridoEmSegundos = 1500;
+let tempoDecorridoEmSegundos = 15;
 let intervaloID = null;
 musica.loop = true;
 
@@ -28,20 +28,20 @@ musicaFocoInput.addEventListener("change", () => {
 })
 
 btnFoco.addEventListener("click", () => {
-  tempoDecorridoEmSegundos = 30;
+  tempoDecorridoEmSegundos = 15;
   alterarContexto("foco");
   btnFoco.classList.add("active");
 });
 
 btnCurto.addEventListener("click", () => {
-  tempoDecorridoEmSegundos = 30;
+  tempoDecorridoEmSegundos = 15;
   alterarContexto("descanso-curto");
   btnCurto.classList.add("active");
 
 });
 
 btnLongo.addEventListener("click", () => {
-  tempoDecorridoEmSegundos = 30;
+  tempoDecorridoEmSegundos = 15;
   alterarContexto("descanso-longo");
   btnLongo.classList.add("active");
 });
@@ -81,7 +81,7 @@ const contagemRegressiva = () => {
     zerar();
     const focoAtivo = html.getAttribute("data-contexto") == "foco";
     if(focoAtivo){
-      const evento = new CustomEvent("FocoFinalizado");
+      const evento = new CustomEvent("finishedTask");
       document.dispatchEvent(evento);
     }
     // beep.play();

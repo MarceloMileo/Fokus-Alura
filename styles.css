@@ -407,7 +407,7 @@ h1, h2, h3, h4, h5, h6 {
     font-family: Montserrat;
 }
 
-.app__section-task-list-item-complete .app__section-task-list-item {
+.app__section-task-list-item-complete.app__section-task-list-item {
     background: var(--fundo-card-concludo);
     cursor: inherit;
 }

@@ -9,6 +9,7 @@ const inProgressTask = document.querySelector(".app__section-active-task-descrip
 
 const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let selectedTask = null;
+let selectedTaskItem = null;
 
 function updateTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -50,22 +51,30 @@ function createTaskElement(task) {
   li.append(paragraph);
   li.append(btnEdit);
 
-  li.onclick = () => {
-    inProgressTask.textContent = task.description;
-    document.querySelectorAll(".app__section-task-list-item-active").forEach(element => {
-      element.classList.remove("app__section-task-list-item-active")
-    })
-
-    if(selectedTask == task){
-      inProgressTask.textContent = "";
-      selectedTask = null;
-      return;
+  if(selectedTask.completed){
+    li.classList.add('app__section-task-list-item-complete');
+    btnEdit.setAttribute('disabled', 'disabled');
+  } else {
+    li.onclick = () => {
+      inProgressTask.textContent = task.description;
+      document.querySelectorAll(".app__section-task-list-item-active").forEach(element => {
+        element.classList.remove("app__section-task-list-item-active")
+      })
+  
+      if(selectedTask == task){
+        inProgressTask.textContent = "";
+        selectedTask = null;
+        selectedTaskItem = null;
+        return;
+      }
+  
+      selectedTask = task;
+      selectedTaskItem = li;
+  
+      li.classList.add("app__section-task-list-item-active");
     }
-
-    selectedTask = task;
-
-    li.classList.add("app__section-task-list-item-active");
   }
+  
 
   return li;
 }
@@ -96,3 +105,13 @@ tasks.forEach((task) => {
   const elementTask = createTaskElement(task);
   taskList.append(elementTask);
 });
+
+document.addEventListener('finishedTask', () => {
+  if (selectedTask && selectedTaskItem) {
+    selectedTaskItem.classList.remove('app__section-task-list-item-active');
+    selectedTaskItem.classList.add('app__section-task-list-item-complete');
+    selectedTaskItem.querySelector('button').setAttribute('disabled', 'disabled');
+    selectedTask.completed = true;
+    updateTasks()
+  }
+})
